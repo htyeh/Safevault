@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 import getpass
 
@@ -34,7 +35,6 @@ def decipher(string, n):
             res += ltr
     return res
 
-
 def encipher_key(string, key):
     if len(string) <= len(key):
         return "".join([enciphered for enciphered in map(encipher,string,key)])
@@ -55,7 +55,21 @@ def decipher_key(string, key):
             res += "".join([deciphered for deciphered in map(decipher,string,key)])
         return res
 
-key = list(int(_) for _ in getpass.getpass("KEY: "))
+def transfer_key(str_input):
+    res = []
+    for ele in str_input:
+        if ele not in letr_2_key:
+            print("password contains illegal character(s)")
+            sys.exit()
+        else:
+            res.append(letr_2_key[ele])
+    return res
+
+letr_2_key = {"a":1, "b":2, "c":3, "d":4, "e":5, "f":6, "g":7, "h":8, "i":9, "j":10, "k":11, "l":12, "m":13, "n":14, "o":15, "p":16, "q":17, "r":18, "s":19, "t":20, "u":21, "v":22, "w":23, "x":24, "y":25, "z":26, "1":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "0":0}
+
+
+# key = list(int(_) for _ in getpass.getpass("KEY: "))
+key = transfer_key(getpass.getpass("PASSWORD: "))
 print("1. DECRYPT FOLDER")
 print("2. ENCRYPT FOLDER")
 action = input("CHOOSE ACTION: ")
