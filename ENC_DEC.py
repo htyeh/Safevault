@@ -65,19 +65,26 @@ def transfer_key(str_input):
             res.append(letr_2_key[ele])
     return res
 
+def determine_mode():
+    # return 1-decrypt; 2-encrypt
+    
+    if len([file for file in os.listdir(".") if file.endswith(".cv.txt")]) == len([file for file in os.listdir(".") if file.endswith(".txt")]):    # all .txt are .cv.txt
+        return 1
+    elif not [file for file in os.listdir(".") if file.endswith(".cv.txt")]:  # no .cv.txt
+        return 2
+    else:
+        print("mixed files and ciphers, not processed")
+        sys.exit()
+
 letr_2_key = {"a":1, "b":2, "c":3, "d":4, "e":5, "f":6, "g":7, "h":8, "i":9, "j":10, "k":11, "l":12, "m":13, "n":14, "o":15, "p":16, "q":17, "r":18, "s":19, "t":20, "u":21, "v":22, "w":23, "x":24, "y":25, "z":26, "1":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "0":0}
 
-
-# key = list(int(_) for _ in getpass.getpass("KEY: "))
+action = determine_mode()
 key = transfer_key(getpass.getpass("PASSWORD: "))
-print("1. DECRYPT FOLDER")
-print("2. ENCRYPT FOLDER")
-action = input("CHOOSE ACTION: ")
 
 start_time = time.time()
 file_counter = 0
 
-if action == "1":
+if action == 1:
     for file in os.listdir("."):
         if file.endswith(".cv.txt"):
             file_counter += 1
@@ -87,7 +94,7 @@ if action == "1":
             with open(file[:-7] + ".txt", "w") as output:
                 output.write(deciphered_msg)
             os.system("rm " + file)
-elif action == "2":
+elif action == 2:
     for file in os.listdir("."):
         if file.endswith(".txt"):
             file_counter += 1
@@ -99,4 +106,4 @@ elif action == "2":
             os.system("rm " + file)
 
 end_time = time.time()
-print(str(file_counter) + " files processed in " + str(round(end_time-start_time, 2)) + " second(s).")
+print(str(file_counter) + " files processed in " + str(round(end_time-start_time, 3)) + " second(s).")
